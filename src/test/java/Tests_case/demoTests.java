@@ -15,39 +15,43 @@ import java.time.Duration;
 public class demoTests extends env_target {
 
     @Test
-    public void firstTest() {
-        // Set up WebDriver
+    public void TC01() {
+        //login berhasil dengan data yang valid
+
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver(); // local reference avoids relying on env_target for driver
         driver.manage().window().maximize();
         driver.get(baseURL);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        // Wait for login button to be visible (not invisible)
+
         wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
 
-        // Perform login
+
         driver.findElement(By.id("user-name")).sendKeys("standard_user");
         driver.findElement(By.name("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
 
-        // Wait for title "Products" to be visible
         wait.until(
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='title' and text()='Products']"))
         );
-//        WebElement dropdownElement = driver.findElement(By.xpath("//span[@class='active_option', data-test='active-option']"));
+        driver.findElement(By.xpath("//*[contains(@class, 'inventory_item_name') and text()='Sauce Labs Backpack']")).click();
+        driver.findElement(By.xpath("//button[@class='btn btn-primary', contains(text()= 'Add to cart')]")).click();
+//        WebElement dropdownElement = driver.findElement(By.xpath("//select[@data-test='product_sort_container']"));
 //        Select productSortDropdown = new Select(dropdownElement);
 //
-//        productSortDropdown.selectByContainsVisibleText("Name (A to Z)");
+//
+//        productSortDropdown.selectByVisibleText("Name (A to Z)");
 //        productSortDropdown.selectByValue("lohi");
 
 
-        // Clean up
         driver.quit();
     }
     @Test
-    public void notInput() {
+    public void TC02() {
+        //login gagal: tidak menginput username dan password
+
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -65,7 +69,9 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void notInputPassword() {
+    public void TC03() {
+        //login gagal: tidak menginput password
+
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -85,7 +91,9 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void notInputUsername() {
+    public void TC04() {
+        //login gagal: tidak menginput username
+
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -105,7 +113,9 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void inputKapital() {
+    public void TC05() {
+        //login gagal: menginput username & password dengan huruf kapital
+
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -116,6 +126,52 @@ public class demoTests extends env_target {
                 ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='submit' and @data-test='login-button']"))
         );
         driver.findElement(By.name("user-name")).sendKeys("STANDARD_USER");
+        driver.findElement(By.id("password")).sendKeys("SECRET_SAUCE");
+        driver.findElement(By.xpath("//input[@type='submit' and @data-test='login-button']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[contains(@data-test, 'error') and contains(text(), 'Username and password do not match any user in this service')]")
+        ));
+
+        driver.quit();
+    }
+
+    @Test
+    public void TC06() {
+        //login gagal: menginput username dengan huruf kapital & password
+
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get(baseURL);
+        Duration duration = Duration.ofSeconds(10);
+        WebDriverWait wait = new WebDriverWait(driver, duration);
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='submit' and @data-test='login-button']"))
+        );
+        driver.findElement(By.name("user-name")).sendKeys("STANDARD_USER");
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.xpath("//input[@type='submit' and @data-test='login-button']")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[contains(@data-test, 'error') and contains(text(), 'Username and password do not match any user in this service')]")
+        ));
+
+        driver.quit();
+    }
+
+    @Test
+    public void TC07() {
+        //login gagal: menginput username & password dengan huruf kapital
+
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get(baseURL);
+        Duration duration = Duration.ofSeconds(10);
+        WebDriverWait wait = new WebDriverWait(driver, duration);
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='submit' and @data-test='login-button']"))
+        );
+        driver.findElement(By.name("user-name")).sendKeys("standard_user");
         driver.findElement(By.id("password")).sendKeys("SECRET_SAUCE");
         driver.findElement(By.xpath("//input[@type='submit' and @data-test='login-button']")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(
