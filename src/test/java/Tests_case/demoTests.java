@@ -49,8 +49,61 @@ public class demoTests extends env_target {
 
         driver.quit();
     }
+
     @Test
     public void TC02() {
+        // login gagal: menginput dengan password yang salah
+
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver(); // local reference avoids relying on env_target for driver
+        driver.manage().window().maximize();
+        driver.get(baseURL);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
+
+
+        driver.findElement(By.id("user-name")).sendKeys("standard_user");
+        driver.findElement(By.name("password")).sendKeys("sauce_glim");
+        driver.findElement(By.id("login-button")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[contains(@data-test, 'error') and contains(text(), 'Username and password do not match any user in this service')]")
+        ));
+
+        driver.quit();
+    }
+
+    @Test
+    public void TC03() {
+        //login gagal: menginput dengan username yang salah
+
+        System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver(); // local reference avoids relying on env_target for driver
+        driver.manage().window().maximize();
+        driver.get(baseURL);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+
+        wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.id("login-button")));
+
+
+        driver.findElement(By.id("user-name")).sendKeys("123_sauce");
+        driver.findElement(By.name("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//*[contains(@data-test, 'error') and contains(text(), 'Username and password do not match any user in this service')]")
+        ));
+
+        driver.quit();
+    }
+
+    @Test
+    public void TC04() {
         //login gagal: tidak menginput username dan password
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -70,7 +123,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC03() {
+    public void TC05() {
         //login gagal: tidak menginput password
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -92,7 +145,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC04() {
+    public void TC06() {
         //login gagal: tidak menginput username
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -114,7 +167,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC05() {
+    public void TC07() {
         //login gagal: menginput username & password dengan huruf kapital
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -137,7 +190,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC06() {
+    public void TC08() {
         //login gagal: menginput username dengan huruf kapital & password
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -160,7 +213,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC07() {
+    public void TC09() {
         //login gagal: menginput username & password dengan huruf kapital
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -183,7 +236,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC08() {
+    public void TC10() {
         //login gagal: menginput username dengan <space> diakhir & password
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -206,7 +259,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC09 () {
+    public void TC11() {
         // login gagal: menginput username & password dengan <space> diakhir
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
@@ -229,7 +282,7 @@ public class demoTests extends env_target {
     }
 
     @Test
-    public void TC10 () {
+    public void TC12() {
         // login gagal: menginput username & password dengan simbol '
 
         System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\driver\\chromedriver.exe");
